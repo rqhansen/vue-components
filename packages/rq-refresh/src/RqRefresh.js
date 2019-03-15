@@ -1,4 +1,5 @@
-import utils from '@/assets/js/utils/index'
+import utils from './utils'
+
 const MAXOFFSETY = 180 //最大滑动距离
 let [startY, transLateY, isTouch] = [0, 0, false]
 //获取targeteEle
@@ -110,11 +111,11 @@ export default {
 
         let pos = getComputedStyle(el, null).position //外层容器添加类
         el.style.position = pos !== 'static' ? pos : 'relative'
-        utils.addClass(el, 'refresh-animation-wrap')
+        utils.addClass(el, 'rq-refresh-wrapper')
 
         let newChild = document.createElement('div') //创建新元素
         newChild.innerHTML = `<svg class="svg-icon" aria-hidden="true"><use xlink:href="#refresh"></use></svg>`
-        utils.addClass(newChild, 'refresh-wrap')
+        utils.addClass(newChild, 'refresh-icon-wrapper')
 
         el.insertBefore(newChild, el.firstChild)
         el.options.targetEle = newChild
