@@ -1,8 +1,7 @@
 <template>
   <div id="app">
-    <rq-Refresh @on-refresh="refresh">
-      <div class="header"></div>
-     <p>我是刷新</p>
+    <rq-Refresh @on-refresh="refresh" :className="'refresh-extra-style'">
+     <!-- 插入容器 -->
     </rq-Refresh>
   </div>
 </template>
@@ -22,18 +21,26 @@ export default {
 </script>
 
 <style lang="scss">
+@import 'assets/scss/reset.scss';
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  font-size:20px;
+  font-size:26px;
+  .refresh-extra-style{
+    height:100vh;
+  }
   .header{
     position:relative;
     height:88px;
     background-color:#ec0022;
     z-index:10;
+  }
+  .header+div{
+    height:calc(100vh - 88px);
+    line-height:calc(100vh - 88px);
   }
 }
 </style>

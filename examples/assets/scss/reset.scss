@@ -1,0 +1,162 @@
+@charset "utf-8";
+$defaultColor: #333;
+$mobileFont: 'Helvetica Neue', Helvetica, STHeiTi, Microsoft YaHei, sans-serif,
+    Microsoft JhengHei, Arial;
+*,
+*:before,
+*:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+html,
+body {
+    height: 100%;
+    overflow-x: hidden;
+    -webkit-user-select: none;
+    user-select: none;
+}
+html {
+    font-family: $mobileFont;
+    overflow: unset; //防止页面抖动
+}
+body {
+    line-height: 1.5;
+    color: #333;
+    background-color: #fff;
+    -webkit-overflow-scrolling: touch;
+}
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+code,
+form,
+fieldset,
+legend,
+input,
+textarea,
+p,
+blockquote,
+th,
+td,
+hr,
+button,
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+menu,
+nav,
+section {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+nav,
+section,
+summary {
+    display: block;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: normal;
+}
+/* 清除点击虚拟框 */
+a,
+div,
+p,
+span,
+ul,
+li,
+i,
+img,
+input {
+    outline: 0;
+    text-decoration: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+ul,
+ol {
+    list-style: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+input,
+select,
+button,
+textarea {
+    font-size: 100%;
+    font: inherit;
+}
+/* 按钮文本不可选 */
+button {
+    user-select: none;
+}
+a,
+img {
+    -webkit-touch-callout: none;
+}
+a:focus {
+    outline: 0;
+}
+a:link,
+a:visited {
+    color: $defaultColor;
+    text-decoration: none;
+}
+img {
+    vertical-align: middle;
+}
+/* 加载不出来的图片不要显示灰色边框 */
+img:not([src]),
+img[src=''] {
+    opacity: 0;
+}
+
+input {
+    -webkit-appearance: none;
+}
+::-webkit-input-placeholder {
+    /* Chrome/Safari/Opera */
+    color: #999;
+}
+
+::-moz-placeholder {
+    /* Firefox 19+ */
+    color: #999;
+}
+
+:-ms-input-placeholder {
+    /* IE 10+ 注意这里只有一个冒号 */
+    color: #999;
+}

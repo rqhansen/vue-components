@@ -1,13 +1,19 @@
 <template>
-  <div v-rq-refresh = "refresh">
+  <div v-rq-refresh = "refresh" :class="className">
     <slot></slot>
   </div>
 </template>
 
 <script>
 import RqRefresh from './RqRefresh.js';
+/**
+ * rq-refresh
+ * @desc rq-refresh
+ * @module packages/rq-refresh
+ */
 export default {
   name: 'rqRefresh',
+  props:['className'],
   directives: {
     'rqRefresh':RqRefresh
   },
@@ -21,7 +27,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @mixin animation($val) {
   animation: $val;
 }

@@ -1,11 +1,16 @@
 {
     "name": "rq-refresh",
-    "version": "0.1.0",
-    "private": true,
+    "version": "0.1.6",
+    "description": "基于vue的下拉刷新组件",
+    "keyword": "refresh",
+    "author": "rq",
+    "main": "lib/rq-components.umd.min.js",
+    "private": false,
     "scripts": {
         "serve": "vue-cli-service serve",
         "build": "vue-cli-service build",
-        "lint": "vue-cli-service lint"
+        "lint": "vue-cli-service lint",
+        "lib": "vue-cli-service build --target lib --name rq-components --dest lib packages/index.js"
     },
     "dependencies": {
         "postcss-px2rem": "^0.3.0",
