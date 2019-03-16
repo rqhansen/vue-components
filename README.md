@@ -50,7 +50,3 @@ export default {
 }
 </script>
 ```
-
-```
-[github](https://github.com/rqhansen/rq-vue-components)
-```
