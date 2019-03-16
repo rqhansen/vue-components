@@ -1,6 +1,6 @@
 {
     "name": "rq-refresh",
-    "version": "0.1.6",
+    "version": "0.1.7",
     "description": "基于vue的下拉刷新组件",
     "keyword": "refresh",
     "author": "rq",
