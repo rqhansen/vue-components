@@ -29,9 +29,9 @@ Vue.use(rqRefresh)
 
 ```
 <template>
-   <rq-Refresh @on-refresh="refresh" :className="类名">
+   <rq-refresh @on-refresh="refresh" :className="类名">
    <!-- 插入包裹元素 -->
-    </rq-Refresh>
+    </rq-refresh>
 </template>
 
 

@@ -1,5 +1,6 @@
 <template>
-  <div v-rq-refresh = "refresh" :class="className">
+  <div v-rq-refresh="refresh"
+       :class="className">
     <slot></slot>
   </div>
 </template>
@@ -8,19 +9,33 @@
 import RqRefresh from './RqRefresh.js';
 /**
  * rq-refresh
- * @desc rq-refresh
+ * @desc 刷新组件
  * @module packages/rq-refresh
+ * @param {string}[className=''] 类名
+ * 
+ * @example
+ * <rq-refresh @on-refresh="refresh" :class="'aaa'">
+ * <rq-fresh/>
+ * 
+ * methods: {
+ *  refresh (resolve) {
+ *    setTimeout(() => {
+ *      alert("刷新成功");
+ *      resolve();
+ *     }, 1000);
+ *   }
+ * }
  */
 export default {
   name: 'rqRefresh',
-  props:['className'],
+  props: ['className'],
   directives: {
-    'rqRefresh':RqRefresh
+    'rqRefresh': RqRefresh
   },
-  methods:{
-    refresh(){
-      return new Promise((resolve,reject) =>{
-        this.$emit('on-refresh',resolve);
+  methods: {
+    refresh () {
+      return new Promise((resolve, reject) => {
+        this.$emit('on-refresh', resolve);
       })
     }
   }
@@ -53,16 +68,16 @@ export default {
     margin-left: -30px;
     transition: all 0.5s linear;
     z-index: 9;
-    text-align:left;
+    text-align: left;
     .svg-icon {
-        position: absolute;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        line-height: 40px;
-        border-radius: 50%;
-        background-color: #fff;
-        font-size: 14px;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      line-height: 40px;
+      border-radius: 50%;
+      background-color: #fff;
+      font-size: 14px;
       &.active {
         //刷新动画
         $an1: (
