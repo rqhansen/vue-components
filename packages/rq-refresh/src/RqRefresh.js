@@ -3,6 +3,42 @@ import utils from './utils'
 const MAXOFFSETY = 180 //最大滑动距离
 let [startY, transLateY, isTouch] = [0, 0, false]
 
+export default {
+    bind: function(el, binding) {
+        el.options = {}
+        if (typeof binding.value === 'function') {
+            el.options.refresh = binding.value
+        }
+    },
+    inserted: function(el, binding) {
+        if (!binding.value) return
+        let pos = getComputedStyle(el, null).position //外层容器添加类
+        el.style.position = pos !== 'static' ? pos : 'relative'
+        utils.addClass(el, 'rq-refresh-wrapper')
+
+        let newChild = document.createElement('div')
+        newChild.innerHTML = `<svg class="svg-icon" aria-hidden="true"><use xlink:href="#refresh"></use></svg>`
+        utils.addClass(newChild, 'refresh-icon-wrapper')
+        el.insertBefore(newChild, el.firstChild)
+
+        //设置刷新区域的第一个元素为刷新图标
+        el.options.targetEle = newChild
+        //记录初始刷新区域距离dom顶部的距离
+        el.options.top = el.getBoundingClientRect().top
+
+        el.addEventListener('touchstart', touchStart, { passive: false })
+        el.addEventListener('touchmove', touchMove, { passive: false })
+        el.addEventListener('touchend', touchEnd, { passive: false })
+        el.addEventListener('touchcancle', touchCancle, { passive: false })
+    },
+    unbind: function(el) {
+        el.removeEventListener('touchstart', touchStart, { passive: false })
+        el.removeEventListener('touchmove', touchMove, { passive: false })
+        el.removeEventListener('touchend', touchEnd, { passive: false })
+        el.addEventListener('touchcancle', touchCancle, { passive: false })
+    }
+}
+
 //获取刷新图标的包裹层
 function getTargetEle(context) {
     return context['options'].targetEle
@@ -99,41 +135,9 @@ function touchEnd() {
  */
 function touchCancle() {
     setTransLateY(this, 0)
-    removePreventDefault()
-}
-
-export default {
-    bind: function(el, binding) {
-        el.options = {}
-        if (typeof binding.value === 'function') {
-            el.options.refresh = binding.value
-        }
-    },
-    inserted: function(el, binding) {
-        if (!binding.value) return
-        let pos = getComputedStyle(el, null).position //外层容器添加类
-        el.style.position = pos !== 'static' ? pos : 'relative'
-        utils.addClass(el, 'rq-refresh-wrapper')
-
-        let newChild = document.createElement('div')
-        newChild.innerHTML = `<svg class="svg-icon" aria-hidden="true"><use xlink:href="#refresh"></use></svg>`
-        utils.addClass(newChild, 'refresh-icon-wrapper')
-        el.insertBefore(newChild, el.firstChild)
-
-        //设置刷新区域的第一个元素为刷新图标
-        el.options.targetEle = newChild
-        //记录初始刷新区域距离dom顶部的距离
-        el.options.top = el.getBoundingClientRect().top
-
-        el.addEventListener('touchstart', touchStart, { passive: false })
-        el.addEventListener('touchmove', touchMove, { passive: false })
-        el.addEventListener('touchend', touchEnd, { passive: false })
-        el.addEventListener('touchcancle', touchCancle, { passive: false })
-    },
-    unbind: function(el) {
-        el.removeEventListener('touchstart', touchStart, { passive: false })
-        el.removeEventListener('touchmove', touchMove, { passive: false })
-        el.removeEventListener('touchend', touchEnd, { passive: false })
-        el.addEventListener('touchcancle', touchCancle, { passive: false })
-    }
+    HandlerDefaultListener(
+        'removeEventListener',
+        'touchmove',
+        setPreventDefault
+    )
 }
