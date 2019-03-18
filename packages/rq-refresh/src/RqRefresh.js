@@ -1,13 +1,20 @@
 import utils from './utils'
 
-const MAXOFFSETY = 180 //最大滑动距离
+const [MAXOFFSETY, options] = [180, 'options'] //最大滑动距离
 let [startY, transLateY, isTouch] = [0, 0, false]
 
 export default {
     bind: function(el, binding) {
-        el.options = {}
-        if (typeof binding.value === 'function') {
-            el.options.refresh = binding.value
+        el[options] = {}
+        let value = binding.value
+        if (typeof value === 'function') {
+            const documentHandler = function(e) {
+                e.preventDefault()
+            }
+            el[options] = {
+                documentHandler,
+                refresh: value
+            }
         }
     },
     inserted: function(el, binding) {
@@ -21,11 +28,8 @@ export default {
         utils.addClass(newChild, 'refresh-icon-wrapper')
         el.insertBefore(newChild, el.firstChild)
 
-        //设置刷新区域的第一个元素为刷新图标
-        el.options.targetEle = newChild
         //记录初始刷新区域距离dom顶部的距离
-        el.options.top = el.getBoundingClientRect().top
-
+        el[options].top = el.getBoundingClientRect().top
         el.addEventListener('touchstart', touchStart, { passive: false })
         el.addEventListener('touchmove', touchMove, { passive: false })
         el.addEventListener('touchend', touchEnd, { passive: false })
@@ -39,40 +43,19 @@ export default {
     }
 }
 
-//获取刷新图标的包裹层
-function getTargetEle(context) {
-    return context['options'].targetEle
-}
-
-//判断滚动元素的大小和其相对于视口的位置
-function getElementBoundingClientRect(ele) {
-    if (!ele) throw new Error('element cant be null')
-    return ele.getBoundingClientRect()
-}
-
 function getElePosition(context) {
     return (
-        context.options.top - getElementBoundingClientRect(context).top ||
+        context.options.top - context.getBoundingClientRect().top ||
         document.documentElement.scrollTop ||
         document.body.scrollTop ||
         window.pageYOffset
     )
 }
 
-//阻止和移除默认事件
-function setPreventDefault(e) {
-    e.preventDefault()
-}
-
 /**
- *
  * @param {方法名称的字符串} methodName
  * @param {监听的事件名称的字符串} eventName
  * @param {监听的事件触发时调用的函数} handler
- *
- * eg:
- * HandlerDefaultListener('addEventListener','touchmove',setPreventDefault);
- * HandlerDefaultListener('removeEventListener','touchmove',setPreventDefault)
  */
 function HandlerDefaultListener(methodName, eventName, listener) {
     return document.body[methodName](eventName, listener, { passive: false })
@@ -80,12 +63,11 @@ function HandlerDefaultListener(methodName, eventName, listener) {
 
 //设置偏移样式
 function setTransLateY(context, y) {
-    getTargetEle(context).style.transform = `translateY(${y / 75}rem)`
+    context.children[0].style.transform = `translateY(${y / 75}rem)`
 }
 
 function touchStart(e) {
-    let iconEle = getTargetEle(this).children[0]
-    utils.removeClass(iconEle, 'active')
+    utils.removeClass(this.children[0].children[0], 'active')
     startY = e.touches[0].clientY
     transLateY = 0
 }
@@ -103,7 +85,7 @@ function touchMove(e) {
         HandlerDefaultListener(
             'addEventListener',
             'touchmove',
-            setPreventDefault
+            this.options.documentHandler
         )
     }
     isTouch = true
@@ -114,10 +96,11 @@ function touchMove(e) {
 function touchEnd() {
     if (getElePosition(this) > 0) return
     if (transLateY >= MAXOFFSETY) {
-        utils.addClass(getTargetEle(this).children[0], 'static')
+        let iconEle = this.children[0].children[0]
+        utils.addClass(iconEle, 'static')
         this.options.refresh().then(() => {
-            utils.removeClass(getTargetEle(this).children[0], 'static')
-            utils.addClass(getTargetEle(this).children[0], 'active')
+            utils.removeClass(iconEle, 'static')
+            utils.addClass(iconEle, 'active')
             setTransLateY(this, 0)
         })
     } else {
@@ -126,7 +109,7 @@ function touchEnd() {
     HandlerDefaultListener(
         'removeEventListener',
         'touchmove',
-        setPreventDefault
+        this.options.documentHandler
     )
     isTouch = false
 }
