@@ -1,4 +1,4 @@
-import utils from './utils'
+import utils from '../../utils/dom'
 
 const [MAXOFFSETY, options] = [180, 'options'] //最大滑动距离
 let [startY, transLateY, isTouch] = [0, 0, false]
