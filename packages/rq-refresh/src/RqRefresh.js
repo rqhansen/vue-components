@@ -1,6 +1,6 @@
 import utils from './utils'
 
-const [MAXOFFSETY, options] = [180, 'options'] //最大滑动距离
+const [maxOffSet, options] = [180, 'options'] //最大滑动距离
 let [startY, transLateY, isTouch] = [0, 0, false]
 
 export default {
@@ -89,13 +89,13 @@ function touchMove(e) {
         )
     }
     isTouch = true
-    if (transLateY > MAXOFFSETY) transLateY = MAXOFFSETY
+    if (transLateY > maxOffSet) transLateY = maxOffSet
     setTransLateY(this, transLateY)
 }
 
 function touchEnd() {
     if (getElePosition(this) > 0) return
-    if (transLateY >= MAXOFFSETY) {
+    if (transLateY >= maxOffSet) {
         let iconEle = this.children[0].children[0]
         utils.addClass(iconEle, 'static')
         this.options.refresh().then(() => {
