@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <RqRefresh @on-refresh="refresh"
-                :className="'refresh-extra-style'">
+               :className="'refresh-extra-style'">
       <!-- 插入容器 -->
     </RqRefresh>
   </div>

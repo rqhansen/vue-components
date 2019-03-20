@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import RqRefresh from './rqRefresh.js';
+import RqRefresh from './RqRefresh.js';
 /**
  * rq-refresh
  * @desc 刷新组件

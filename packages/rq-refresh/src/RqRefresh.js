@@ -1,20 +1,24 @@
 import utils from '../../utils/dom'
 
-const [maxOffSet, options] = [180, 'options'] //最大滑动距离
+const maxOffSet = 180 //最大滑动距离
 let [startY, transLateY, isTouch] = [0, 0, false]
 
 export default {
     bind: function(el, binding) {
-        el[options] = {}
+        if (!binding.expression) {
+            throw new Error('the directive needs a callback')
+        }
         let value = binding.value
         if (typeof value === 'function') {
             const documentHandler = function(e) {
                 e.preventDefault()
             }
-            el[options] = {
+            el['options'] = {
                 documentHandler,
                 refresh: value
             }
+        } else {
+            throw new Error('binding type must be a function')
         }
     },
     inserted: function(el, binding) {
@@ -27,9 +31,8 @@ export default {
         newChild.innerHTML = `<svg class="svg-icon" aria-hidden="true"><use xlink:href="#refresh"></use></svg>`
         utils.addClass(newChild, 'refresh-icon-wrapper')
         el.insertBefore(newChild, el.firstChild)
-
         //记录初始刷新区域距离dom顶部的距离
-        el[options].top = el.getBoundingClientRect().top
+        el['options'].top = el.getBoundingClientRect().top
         el.addEventListener('touchstart', touchStart, { passive: false })
         el.addEventListener('touchmove', touchMove, { passive: false })
         el.addEventListener('touchend', touchEnd, { passive: false })
@@ -40,6 +43,7 @@ export default {
         el.removeEventListener('touchmove', touchMove, { passive: false })
         el.removeEventListener('touchend', touchEnd, { passive: false })
         el.addEventListener('touchcancle', touchCancle, { passive: false })
+        delete el.options
     }
 }
 
