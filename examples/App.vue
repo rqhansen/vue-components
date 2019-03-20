@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <rq-refresh @on-refresh="refresh"
+    <RqRefresh @on-refresh="refresh"
                 :className="'refresh-extra-style'">
       <!-- 插入容器 -->
-    </rq-refresh>
+    </RqRefresh>
   </div>
 </template>
 

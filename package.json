@@ -13,6 +13,7 @@
         "lib": "vue-cli-service build --target lib --name rq-components --dest lib packages/index.js"
     },
     "dependencies": {
+        "iview": "^3.3.2",
         "postcss-px2rem": "^0.3.0",
         "px2rem-loader": "^0.1.9",
         "svg-sprite-loader": "^4.1.3",
