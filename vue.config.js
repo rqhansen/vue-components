@@ -60,6 +60,7 @@ module.exports = {
         addPackageConfig(config)
         //移除eslint检查
         removeEslint(config)
+        config.resolve.alias.set('@', resolve('examples'))
     },
     css: {
         extract: true, //true在生产中，false在开发中(true开启样式分离,false导致骨架屏样式失效)
